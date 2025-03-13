@@ -41,37 +41,36 @@ export default function Home() {
     try {
       setCheckinStatus((prev) => ({ ...prev, isLoading: true, error: "" }))
 
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500))
+      // Call the check-in API endpoint
+      const response = await fetch('/api/checkin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
-      // Mock response
-      const success = Math.random() > 0.2 // 80% success rate for demo
-
-      if (success) {
-        const alreadyCheckedIn = Math.random() > 0.7 // 30% chance of already checked in
-
-        setCheckinStatus({
-          message: alreadyCheckedIn ? "You've already checked in today!" : "Check-in successful!",
-          isLoading: false,
-          error: "",
-          streak: alreadyCheckedIn ? 5 : 6,
-          totalCheckins: alreadyCheckedIn ? 42 : 43,
-          alreadyCheckedIn,
-        })
-      } else {
-        setCheckinStatus({
-          ...checkinStatus,
-          message: "Failed to check in",
-          isLoading: false,
-          error: "Server error. Please try again later.",
-        })
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to check in');
       }
+
+      setCheckinStatus({
+        message: data.alreadyCheckedIn 
+          ? "You've already checked in today!" 
+          : "Check-in successful!",
+        isLoading: false,
+        error: "",
+        streak: data.streak || 0,
+        totalCheckins: data.totalCheckins || data.count || 0,
+        alreadyCheckedIn: !!data.alreadyCheckedIn,
+      });
     } catch (err) {
       console.error("Check-in error:", err)
       setCheckinStatus((prev) => ({
         ...prev,
         isLoading: false,
-        error: "Failed to check in. Please try again.",
+        error: err instanceof Error ? err.message : "Failed to check in. Please try again.",
       }))
     }
   }
