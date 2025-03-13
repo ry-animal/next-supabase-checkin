@@ -1,0 +1,34 @@
+# Build artifacts
+.next/
+out/
+build/
+dist/
+
+# Dependencies
+node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Cache directories
+.npm
+.eslintcache
+.vercel
+
+# Environment files
+.env*
+!.env.example
+
+# Misc
+.DS_Store
+*.pem
+
+# Coverage directory
+coverage/
+
+# Generated files
+public/sitemap*.xml
+public/robots.txt
+public/feed.xml 

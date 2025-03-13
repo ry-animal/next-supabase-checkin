@@ -1,5 +1,5 @@
-import { MainNav } from "./nav";
-import Link from "next/link";
+import { MainNav } from './nav';
+import Link from 'next/link';
 
 export function Header() {
   return (
@@ -19,4 +19,4 @@ export function Header() {
       </div>
     </header>
   );
-} 
+}

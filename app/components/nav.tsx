@@ -1,22 +1,22 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { cn } from '@/lib/utils';
 
 export function MainNav() {
   const pathname = usePathname();
 
   const routes = [
     {
-      href: "/",
-      label: "Home",
-      active: pathname === "/",
+      href: '/',
+      label: 'Home',
+      active: pathname === '/',
     },
     {
-      href: "/import",
-      label: "Import Data",
-      active: pathname === "/import",
+      href: '/import',
+      label: 'Import Data',
+      active: pathname === '/import',
     },
   ];
 
@@ -27,10 +27,8 @@ export function MainNav() {
           key={route.href}
           href={route.href}
           className={cn(
-            "text-sm font-medium transition-colors hover:text-primary",
-            route.active
-              ? "text-primary"
-              : "text-muted-foreground"
+            'text-sm font-medium transition-colors hover:text-primary',
+            route.active ? 'text-primary' : 'text-muted-foreground'
           )}
         >
           {route.label}
@@ -38,4 +36,4 @@ export function MainNav() {
       ))}
     </nav>
   );
-} 
+}

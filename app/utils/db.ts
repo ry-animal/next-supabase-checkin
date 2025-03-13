@@ -15,14 +15,10 @@ const db = {
   collection: (table: string) => ({
     doc: (id: string) => ({
       get: async () => {
-        const { data, error } = await supabase
-          .from(table)
-          .select('*')
-          .eq('id', id)
-          .single();
-          
+        const { data, error } = await supabase.from(table).select('*').eq('id', id).single();
+
         if (error) throw error;
-        
+
         return {
           exists: !!data,
           data: () => data as DocumentData,
@@ -34,7 +30,7 @@ const db = {
           .insert([{ id, ...document }])
           .select()
           .single();
-          
+
         if (error) throw error;
         return data;
       },
@@ -45,7 +41,7 @@ const db = {
           .eq('id', id)
           .select()
           .single();
-          
+
         if (error) throw error;
         return data;
       },
