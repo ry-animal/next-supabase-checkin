@@ -1,5 +1,5 @@
 -- Seed data for testing
-INSERT INTO "User" (id, userid, lastcheckin, count, streak, checkinhistory)
+INSERT INTO "user" (id, userid, lastcheckin, count, streak, checkinhistory)
 VALUES (
   '123', 
   '123', 

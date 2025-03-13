@@ -1,5 +1,5 @@
 -- Create User table for check-in functionality
-CREATE TABLE IF NOT EXISTS "User" (
+CREATE TABLE IF NOT EXISTS "user" (
   id TEXT PRIMARY KEY,
   userid TEXT NOT NULL,
   lastcheckin TIMESTAMPTZ NOT NULL,
@@ -9,4 +9,4 @@ CREATE TABLE IF NOT EXISTS "User" (
 );
 
 -- Add indexes for performance
-CREATE INDEX IF NOT EXISTS idx_user_userid ON "User" (userid); 
+CREATE INDEX IF NOT EXISTS idx_user_userid ON "user" (userid); 
