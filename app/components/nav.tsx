@@ -14,6 +14,11 @@ export function MainNav() {
       active: pathname === '/',
     },
     {
+      href: '/users',
+      label: 'Users',
+      active: pathname === '/users',
+    },
+    {
       href: '/import',
       label: 'Import Data',
       active: pathname === '/import',
