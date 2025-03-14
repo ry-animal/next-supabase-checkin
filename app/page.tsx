@@ -16,6 +16,7 @@ export default function Home() {
     totalCheckins: 0,
     alreadyCheckedIn: false,
   });
+  const [isLoadingStats, setIsLoadingStats] = useState(true);
 
   useEffect(() => {
     // Check if we're on desktop
@@ -31,6 +32,37 @@ export default function Home() {
 
     // Cleanup
     return () => window.removeEventListener('resize', checkIfDesktop);
+  }, []);
+
+  // Fetch user stats on page load
+  useEffect(() => {
+    const fetchUserStats = async () => {
+      try {
+        setIsLoadingStats(true);
+
+        const response = await fetch('/api/user-stats');
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch user stats');
+        }
+
+        const data = await response.json();
+
+        setCheckinStatus((prev) => ({
+          ...prev,
+          streak: data.streak || 0,
+          totalCheckins: data.totalCheckins || 0,
+          alreadyCheckedIn: !!data.alreadyCheckedIn,
+          message: data.alreadyCheckedIn ? "You've already checked in today!" : '',
+        }));
+      } catch (err) {
+        console.error('Error fetching user stats:', err);
+      } finally {
+        setIsLoadingStats(false);
+      }
+    };
+
+    fetchUserStats();
   }, []);
 
   const toggleSidebar = () => {
@@ -152,7 +184,7 @@ export default function Home() {
                 <div className="text-center">
                   <div className="mb-2 flex h-20 w-20 items-center justify-center rounded-full bg-indigo-100 dark:bg-indigo-900/30">
                     <span className="text-2xl font-bold text-indigo-700 dark:text-indigo-400">
-                      {checkinStatus.streak}
+                      {isLoadingStats ? '...' : checkinStatus.streak}
                     </span>
                   </div>
                   <p className="text-sm text-gray-600 dark:text-gray-300">Current Streak</p>
@@ -161,7 +193,7 @@ export default function Home() {
                 <div className="text-center">
                   <div className="mb-2 flex h-20 w-20 items-center justify-center rounded-full bg-indigo-100 dark:bg-indigo-900/30">
                     <span className="text-2xl font-bold text-indigo-700 dark:text-indigo-400">
-                      {checkinStatus.totalCheckins}
+                      {isLoadingStats ? '...' : checkinStatus.totalCheckins}
                     </span>
                   </div>
                   <p className="text-sm text-gray-600 dark:text-gray-300">Total Check-ins</p>
